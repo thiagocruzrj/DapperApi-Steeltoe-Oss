@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Discovery.Client;
 
 namespace Dapper.Api
 {
@@ -33,10 +34,17 @@ namespace Dapper.Api
         {
             services.AddControllers();
 
+            services.AddHttpClient("zuul-server", c =>
+            {
+                c.BaseAddress = new Uri("http://zuul-server/hello/");
+            });
+            services.AddDiscoveryClient(Configuration);
+
             services.AddScoped<OracleDataConnection, OracleDataConnection>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<CustomerHandler, CustomerHandler>();
+            services.AddDiscoveryClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +54,8 @@ namespace Dapper.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseDiscoveryClient();
 
             app.UseHttpsRedirection();
 

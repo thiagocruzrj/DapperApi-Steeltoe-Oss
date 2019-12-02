@@ -2,8 +2,10 @@ using System.Collections.Generic;
 
 namespace Dapper.Api.Domain.Entities {
     public class Request {
-        public Request (string from, string subject, string message, int type) {
+
+        public Request (string from, List<string> to, string subject, string message, int type) {
             this.From = from;
+            this.To = new List<string>();
             this.Subject = subject;
             this.Message = message;
             this.Type = type;
