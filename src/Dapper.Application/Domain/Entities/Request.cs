@@ -4,11 +4,11 @@ namespace Dapper.Api.Domain.Entities {
     public class Request {
 
         public Request (string from, List<string> to, string subject, string message, int type) {
-            this.From = from;
-            this.To = new List<string>();
-            this.Subject = subject;
-            this.Message = message;
-            this.Type = type;
+            From = from;
+            To = new List<string>();
+            Subject = subject;
+            Message = message;
+            Type = type;
 
         }
         public string From { get; private set; }

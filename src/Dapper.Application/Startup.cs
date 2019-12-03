@@ -34,9 +34,9 @@ namespace Dapper.Api
         {
             services.AddControllers();
 
-            services.AddHttpClient("zuul-server", c =>
+            services.AddHttpClient("CUSTOMER-PAYMENT-AR.ZUUL-SERVER-V1", c =>
             {
-                c.BaseAddress = new Uri("http://zuul-server/hello/");
+                c.BaseAddress = new Uri(" 172.30.36.12:8765");
             });
             services.AddDiscoveryClient(Configuration);
 
@@ -45,6 +45,8 @@ namespace Dapper.Api
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<CustomerHandler, CustomerHandler>();
             services.AddDiscoveryClient(Configuration);
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +69,8 @@ namespace Dapper.Api
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors(options => options.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
         }
     }
 }

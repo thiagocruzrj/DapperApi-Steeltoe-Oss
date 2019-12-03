@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -14,17 +13,21 @@ namespace Dapper.Application.Domain.Commands.ApiRegister
         private readonly IHttpClientFactory _httpClientFactory;
         private Request _request;
 
-        public ApiCallCommand(IHttpClientFactory httpClientFactory, Request request)
+        public ApiCallCommand(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
+        }
+
+        public void Input(Request request)
+        {
             _request = request;
         }
 
         protected async Task<string> RunAsync(Request request)
         {
             //var httpClient = _httpClientFactory.CreateClient("api-b")
-            var httpClient = _httpClientFactory.CreateClient("zuul-server");         
-            var res = await httpClient.PostAsync("api/Example", _request ?? new Request( "gd_ti_integracao@brmalls.com.br", IList<"teste@gmail.com"> ,"teste","teste", 2)
+            var httpClient = _httpClientFactory.CreateClient("zuul-server");
+            var res = await httpClient.PostAsync(" 172.30.36.12:8281", _request ?? new Request("gd_ti_integracao@brmalls.com.br", new List<string> {"thagocruz@gmail.com"} ,"teste","teste", 2)
             , new JsonMediaTypeFormatter());
             var content = await res.Content.ReadAsStringAsync();
 
